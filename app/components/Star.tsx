@@ -1,9 +1,9 @@
 import React from "react";
-import { Movie } from "../types";
+import { Movie, MovieSearch } from "../types";
 
-export const Star = ({ star }: { star: Movie }) => {
+export const Star = ({ star }: { star: MovieSearch }) => {
   return (
-    <div className="flex gap-4">
+    <div className="flex gap-1 items-center">
       <svg
         width="15"
         height="14"
@@ -19,7 +19,10 @@ export const Star = ({ star }: { star: Movie }) => {
           strokeLinejoin="round"
         />
       </svg>
-      <p>{star?.vote_average}/10</p>
+      <p className="text-center">
+        <span className="text-[14px]">{(star?.vote_average).toFixed(2)}</span>
+        <span className="text-[12px] text-[#71717A]">/10</span>
+      </p>
     </div>
   );
 };

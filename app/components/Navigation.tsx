@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { Genres, MovieSearch } from "../types";
+import { Genres, Movie, MovieSearch } from "../types";
+import { Star } from "./Star";
 
 export const Navigation = () => {
   const [genres, setGenres] = useState<Genres[]>([]);
@@ -18,13 +19,14 @@ export const Navigation = () => {
   }, []);
   useEffect(() => {
     fetch(
-      "https://api.themoviedb.org/3/search/movie?api_key=d67d8bebd0f4ff345f6505c99e9d0289&query=fight%20club",
+      "https://api.themoviedb.org/3/discover/movie?api_key=d67d8bebd0f4ff345f6505c99e9d0289",
     )
       .then((res) => res.json())
       .then((data) => {
-        setMovieSearch(data.);
+        setMovieSearch(data.results);
       });
   }, []);
+
   return (
     <div className="py-[11.5px] ">
       <div className="container mx-auto ">
@@ -88,10 +90,58 @@ export const Navigation = () => {
                 ))}
               </div>
             </div>
-            <div className="w-[577px] bg-white border border-[#E4E4E7] rounded-lg min-h-[128] absolute top-13 "></div>
+            <div className="w-[577px] bg-white border border-[#E4E4E7] rounded-lg min-h-[128] absolute top-13 p-3">
+              {movieSearch.slice(0, 5).map((movie) => (
+                <div key={movie.id} className="p-2 space-y-2 flex gap-4">
+                  <img
+                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                    className="h-[100px] w-[67px] object-cover transition-transform group-hover:scale-105 rounded-md"
+                  />
+
+                  <div className="space-y-3">
+                    <div>
+                      <h1 className="text-[20px] font-semibold">
+                        {movie.title}
+                      </h1>
+
+                      <Star star={movie} />
+                    </div>
+                    <div className="flex justify-between">
+                      <p>{movie.release_date.split("-")[0]}</p>
+                      <button>See more</button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="py-2 px-4 border border-[#E4E4E7] rounded-lg flex justify-center items-center cursor-pointer">
-            <img src="/moon.svg" alt="mode" />
+          <div>
+            <svg
+              width="40"
+              height="40"
+              viewBox="0 0 40 40"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g filter="url(#filter0_d_1249_6382)">
+                <path
+                  d="M2 11C2 5.47715 6.47715 1 12 1H28C33.5228 1 38 5.47715 38 11V27C38 32.5228 33.5228 37 28 37H12C6.47715 37 2 32.5228 2 27V11Z"
+                  fill="white"
+                  shapeRendering="crispEdges"
+                />
+                <path
+                  d="M12 1.5H28C33.2467 1.5 37.5 5.7533 37.5 11V27C37.5 32.2467 33.2467 36.5 28 36.5H12C6.7533 36.5 2.5 32.2467 2.5 27V11C2.5 5.7533 6.7533 1.5 12 1.5Z"
+                  stroke="#E4E4E7"
+                  shapeRendering="crispEdges"
+                />
+                <path
+                  d="M20 13C19.2044 13.7956 18.7574 14.8748 18.7574 16C18.7574 17.1252 19.2044 18.2044 20 19C20.7957 19.7956 21.8748 20.2426 23 20.2426C24.1252 20.2426 25.2044 19.7956 26 19C26 20.1867 25.6481 21.3467 24.9888 22.3334C24.3295 23.3201 23.3925 24.0892 22.2961 24.5433C21.1997 24.9974 19.9933 25.1162 18.8295 24.8847C17.6656 24.6532 16.5965 24.0818 15.7574 23.2426C14.9182 22.4035 14.3468 21.3344 14.1153 20.1705C13.8838 19.0067 14.0026 17.8003 14.4567 16.7039C14.9109 15.6075 15.6799 14.6705 16.6666 14.0112C17.6533 13.3519 18.8133 13 20 13Z"
+                  stroke="#18181B"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </g>
+            </svg>
           </div>
         </div>
       </div>
